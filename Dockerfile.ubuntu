@@ -1,12 +1,15 @@
 FROM ubuntu:xenial
-MAINTAINER Benedikt Lang <mail@blang.io>
+MAINTAINER Daniel Williams <daniel.williams@ligo.org>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -q && apt-get install -qy \
     texlive-full \
     python-pygments gnuplot \
-    make git \
+    make git curl \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl https://www.tug.org/fonts/getnonfreefonts/install-getnonfreefonts --output install-getnonfreefonts \
+    && texlua install-getnonfreefonts && getnonfreefonts --sys -a && rm install-getnonfreefonts
 
 WORKDIR /data
 VOLUME ["/data"]
